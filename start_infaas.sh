@@ -33,13 +33,13 @@ CPUGPU_UTIL_THRESH=80 # CPU/GPU utilization threshold (out of 100)
 INFERENTIA_UTIL_THRESH=70 # Inferentia utilization threshold (out of 100)
 
 ###### UPDATE THESE VALUES BEFORE RUNNING ######
-REGION='<REGION>'
-ZONE='<ZONE>'
-SECURITY_GROUP='<SECURITYGROUP>'
-IAM_ROLE='<IAMROLE>'
-MODELDB='<MYMODELDB>' # Model repository bucket (do not include s3://)
-CONFIGDB='<MYCONFIGDB>' # Configuration bucket (do not include s3://)
-WORKER_IMAGE='ami-<INFAASAMI>'
+REGION='eu-central-1'
+ZONE='a'
+SECURITY_GROUP='INFaaS'
+IAM_ROLE='INFaaS'
+MODELDB='lingkarmodelrepo' # Model repository bucket (do not include s3://)
+CONFIGDB='lingkarmodelconfig' # Configuration bucket (do not include s3://)
+WORKER_IMAGE='ami-0c3adce266b668f8e'
 NUM_INIT_CPU_WORKERS=1
 NUM_INIT_GPU_WORKERS=0
 NUM_INIT_INFERENTIA_WORKERS=0
@@ -52,7 +52,7 @@ MAX_INFERENTIA_WORKERS=0
 SLACK_GPU=0
 KEY_NAME='worker_key'
 MACHINE_TYPE_GPU='p3.2xlarge'
-MACHINE_TYPE_CPU='m5.2xlarge'
+MACHINE_TYPE_CPU='t2.medium'
 MACHINE_TYPE_INFERENTIA='inf1.2xlarge'
 DELETE_MACHINES='2' # 0: VM daemon stops machines; 1: VM daemon deletes machines; 2: VM daemon persists machines, but removes them from INFaaS's view
 
@@ -422,4 +422,3 @@ fi
 echo "INFaaS is all set up!"
 
 exit 0
-

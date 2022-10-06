@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
 # Constants
-REGION='<REGION>'
-ZONE='<ZONE>'
+REGION='eu-central-1'
+ZONE='a'
 WORKER_PREFIX="infaas-worker"
 
 # Ask user if they want workers to be deleted

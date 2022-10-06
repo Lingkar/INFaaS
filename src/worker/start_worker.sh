@@ -30,7 +30,7 @@ else
 fi
 echo "HOME directory is: ${HOME}"
 
-REGION='us-west-2'
+REGION='eu-central-1'
 WORKER_ID=`curl -s http://169.254.169.254/latest/meta-data/instance-id`
 WORKER_NAME=$(aws ec2 describe-tags --region $REGION --filters "Name=resource-id,Values=$WORKER_ID" "Name=key,Values=Name" --output text | cut -f5)
 
