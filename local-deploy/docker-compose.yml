@@ -1,0 +1,4 @@
+redis:
+  image: redis:local
+  ports:
+    - "6380:6380"

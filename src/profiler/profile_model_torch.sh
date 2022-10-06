@@ -9,9 +9,8 @@ function check_quit () {
   fi
 }
 
-if [ $# -lt 4 ]; then
-  echo "Usage: ./profile_model.sh <frozen-model> <accuracy> <dataset> <task> [<cpus>]"
-  echo "<cpus> is optional, and will only be used if framework is tensorflow-cpu, pytorch, or inferentia"
+if [ $# -lt 8 ]; then
+  echo "Usage: ./profile_model.sh <frozen-model> <accuracy> <dataset> <task> <cpus> <par_mod> <torch_dir> <im_dim>"
   exit 1
 fi
 
@@ -29,6 +28,9 @@ ACCURACY=$2
 DATASET=$3
 TASK=$4
 NUM_CPUS=${5:-1}
+par_mod=$6
+PYTORCH_DIR=$7
+
 
 TASK=`echo "$TASK" | tr '[:upper:]' '[:lower:]'`
 # INFaaS currently supports classification and translation
@@ -76,18 +78,7 @@ comp_size=`stat --printf="%s" ${FROZEN_MODEL}`
 
 # Attempt to get framework and parent name
 base_file=$(basename ${FROZEN_MODEL})
-par_mod=$(echo "${base_file}" | cut -f 1 -d '.')
 extension=$(echo "${base_file}" | cut -f 2 -d '.')
-
-# Name of parent model
-echo -n "The profiler has detected the name of the parent model to be "$par_mod". Is this correct? [Y/n] "
-read yn_resp
-check_quit "$yn_resp"
-if [[ $yn_resp == N ]] || [[ $yn_resp == n ]]; then
-  echo -n "What is the name of the parent model? "
-  read par_mod
-  check_quit "$par_mod"
-fi
 
 par_mod=`echo "$par_mod" | tr '[:upper:]' '[:lower:]'`
 var_mod="" # Will be set later, depending on the framework
@@ -110,21 +101,13 @@ if [[ $framework == "dummy" ]]; then
   read framework
   check_quit "$framework"
 else
-  echo -n "The profiler has detected the model's framework to be "$framework". Is this correct? [Y/n] "
-  read yn_resp
-  check_quit "$yn_resp"
-  if [[ $yn_resp == N ]] || [[ $yn_resp == n ]]; then
-    echo -n "What is the model's framework? "
-    read framework 
-    check_quit "$framework"
-  fi
+  echo -n "The profiler has detected the model's framework to be "$framework"."
 fi
 
 framework=`echo "$framework" | tr '[:upper:]' '[:lower:]'`
 
 TENSORRT_DIR=""
 TRANSLATION_DIR=""
-PYTORCH_DIR=""
 INFERENTIA_DIR=""
 if [[ $framework == "tensorrt" ]] || [[ $framework == "tensorflow-gpu" ]] || \
    [[ $framework == "caffe2" ]]; then
@@ -150,10 +133,6 @@ elif [[ $framework == "tensorflow-cpu" ]] && [[ $TASK == "translation" ]] || \
   if [[ $framework == "gnmt-nvpy-gpu" ]]; then
     max_batch=64
   fi
-elif [[ $framework == "pytorch" ]]; then
-  echo -n "Where is the root directory for this model? "
-  read PYTORCH_DIR 
-  check_quit "$PYTORCH_DIR"
 elif [[ $framework == "inferentia" ]]; then
   echo -n "Where is the root directory for this model? "
   read INFERENTIA_DIR 
@@ -184,12 +163,9 @@ else
 fi
 
 # If task is classification, ask what the dimensions of the input are
-im_dim="224"
+im_dim=$8
 b64image=""
 if [[ $TASK == "classification" ]]; then
-    echo -n "What is the dimension of your model's input (e.g., 224)? "
-    read im_dim 
-    check_quit "$im_dim"
 
     # Create and convert test image
   if [[ $framework == "pytorch"  ]] || [[ $framework == "tensorflow-cpu" ]] || \
@@ -217,8 +193,8 @@ max_mem=0
 #
 # docker pull nvcr.io/nvidia/tensorrtserver:19.03-py3
 # docker pull tensorflow/serving
- docker pull janleo500/infaaspytorch:latest
 # docker pull qianl15/infaaspytorch:latest
+docker pull janleo500/infaaspytorch:latest
 # docker pull qianl15/gnmt-infaas:latest
 ### TENSORRT or TENSORFLOW-GPU
 if [[ $framework == "tensorrt" ]] || [[ $framework == "tensorflow-gpu" ]] || \

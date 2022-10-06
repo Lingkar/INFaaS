@@ -72,7 +72,7 @@ class ModelExecutor(infaas_query_grpc.QueryServicer):
                     if fn.endswith(model_suffix)]
       # There should only be one file.
       assert len(model_files) == 1
-      self.model = torch.load(os.path.join(model_path, model_files[0]))
+      self.model = torch.jit.load(os.path.join(model_path, model_files[0]), torch.device('cpu'))
       self.model.eval()
     except Exception as e:
       print(e)
@@ -124,6 +124,7 @@ class ModelExecutor(infaas_query_grpc.QueryServicer):
     print('raw input size = {}'.format(len(request.raw_input[0])))
     startTime = now()
     output = self.__make_prediction(request.raw_input)
+    print(output)
     reply = infaas_query.QueryOnlineResponse()
     for otp in output:
       raw_list = np.asarray(otp, dtype=np.float32).flatten()

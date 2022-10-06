@@ -60,7 +60,7 @@ if [[ ! -d ${INFAAS_HOME} ]]; then
 fi
 
 # Update docker image
-docker pull qianl15/infaaspytorch:latest
+docker pull janleo500/infaaspytorch:latest
 docker pull nvcr.io/nvidia/tensorrtserver:19.03-py3
 docker pull qianl15/gnmt-infaas:latest
 
