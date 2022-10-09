@@ -9,3 +9,4 @@
 .idea
 cmake-build-debug
 model_scripts
+src/profiler/profiled_configs

@@ -921,7 +921,8 @@ elif [[ $framework == "tensorrt" ]] || [[ $framework == "tensorflow-gpu" ]] || \
   model_config_name=${var_mod}
 fi
 
-model_config_name=${model_config_name}".config"
+mkdir -p "profiled_configs"
+model_config_name="profiled_configs/"${model_config_name}".config"
 
 cp ${TEMPLATE_FILE} ${model_config_name}
 
