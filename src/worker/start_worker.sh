@@ -162,7 +162,7 @@ mkdir "$LOCAL_OUTPUT"
 ### First, write out the constants file ###
 cd ${INFAAS_HOME}
 
-sed -e "s@const std::string infaas_bucket = .*;@const std::string infaas_bucket = \"${MODELDB}\";@g" \
+sudo sed -e "s@const std::string infaas_bucket = .*;@const std::string infaas_bucket = \"${MODELDB}\";@g" \
     -e "s@const std::string region = .*;@const std::string region = \"${REGION}\";@g" \
     src/include/constants.h.templ > src/include/constants.h
 
