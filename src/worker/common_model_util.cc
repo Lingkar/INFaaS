@@ -1242,6 +1242,7 @@ int8_t CpuModelManager::LoadModel(const std::string src_url,
             offline_nice.c_str(), local_model_dir.c_str(),
             local_input_dir.c_str(), local_output_dir.c_str(), input_dim,
             model_name.c_str(), portnum);
+      std::cout << docker_cmd << std::endl;
     ready = system(docker_cmd);
   } else if (framework == "tensorflow-cpu") {
     if (CPU_ADAPTIVE_BATCHING) {
