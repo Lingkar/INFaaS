@@ -1231,11 +1231,12 @@ int8_t CpuModelManager::LoadModel(const std::string src_url,
   if (framework == "pytorch") {
     std::string offline_nice("OFF");
     if (OFFLINE_CONTROL) { offline_nice = "ON"; }
-    sprintf(docker_cmd,
+      std::cout << "Starting pytorch docker container!" << std::endl;
+      sprintf(docker_cmd,
             "docker run --rm -it -d -p%d:%d --cpus=%d --name=%s --ipc=host "
             "--cap-add=sys_nice -e OFFLINE_NICE=%s -v%s:/tmp/model "
             "-v%s:/tmp/infaas_input -v%s:/tmp/infaas_output "
-            "qianl15/infaaspytorch:latest /workspace/container_start.sh "
+            "janleo500/infaaspytorch:latest /workspace/container_start.sh "
             "pytorch_container.py %d %s %d",
             portnum, portnum, cpu_per_container, instance_name.c_str(),
             offline_nice.c_str(), local_model_dir.c_str(),
