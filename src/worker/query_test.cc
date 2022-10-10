@@ -1066,8 +1066,8 @@ int main(int argc, char** argv) {
   Aws::InitAPI(s3_options);
   Aws::Client::ClientConfiguration s3cfg;
   s3cfg.scheme = Aws::Http::Scheme::HTTPS;
-  s3cfg.region = Aws::String("us-west-2");
-  s3cfg.endpointOverride = Aws::String("s3.us-west-2.amazonaws.com");
+  s3cfg.region = Aws::String("eu-central-1");
+  s3cfg.endpointOverride = Aws::String("s3.eu-central-1.amazonaws.com");
   s3cfg.connectTimeoutMs = 1000 * 60 * 3;  // Connection timeout = 3min
   s3cfg.requestTimeoutMs = 1000 * 60 * 3;  // Request timeout = 3min.
   auto s3c = std::unique_ptr<S3Client>(new S3Client(s3cfg));

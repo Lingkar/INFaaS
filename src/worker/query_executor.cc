@@ -55,8 +55,8 @@ using grpc::Status;
 
 const std::string query_exe_addr = "0.0.0.0:50051";
 const std::string test_model = "testmodel";
-const std::string infaas_aws_region = "us-west-2";
-const std::string infaas_s3_endpoint = "s3.us-west-2.amazonaws.com";
+const std::string infaas_aws_region = "eu-central-1";
+const std::string infaas_s3_endpoint = "s3.eu-central-1.amazonaws.com";
 
 static const int MAX_GRPC_MESSAGE_SIZE = INT32_MAX;
 // TODO: we only allow 1 thread processing offline requests. May need multiple
