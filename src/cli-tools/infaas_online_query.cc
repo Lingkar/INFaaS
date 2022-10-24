@@ -36,7 +36,7 @@
 #include "master/modelreg_client.h"
 #include "master/queryfe_client.h"
 
-static const bool debug = false;
+static const bool debug = true;
 static const int MAX_GRPC_MESSAGE_SIZE = INT32_MAX;
 
 void usage() {
@@ -265,7 +265,7 @@ int main(int argc, char** argv) {
     FileToInputData(inp, 3, input_dim, input_dim, CV_32FC1, CV_32FC3,
                     &img_data);
     std::string next_input(img_data.begin(), img_data.end());
-    input_vector.push_back(next_input);
+    input_vector.push_back(next_input);ra
   }
   std::cout << "Inputs ready for INFaaS" << std::endl;
 
