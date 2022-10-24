@@ -265,7 +265,7 @@ int main(int argc, char** argv) {
     FileToInputData(inp, 3, input_dim, input_dim, CV_32FC1, CV_32FC3,
                     &img_data);
     std::string next_input(img_data.begin(), img_data.end());
-    input_vector.push_back(next_input);ra
+    input_vector.push_back(next_input);
   }
   std::cout << "Inputs ready for INFaaS" << std::endl;
 
