@@ -285,6 +285,7 @@ int main(int argc, char** argv) {
     if (debug) { std::cout << "Use Case" << std::endl; }
     std::string use_case(task + "-" + dataset + "-" +
                          std::to_string(input_dim));
+    std::out << use_case << std::endl;
     query_reply = queryfe.QueryOnline(input_vector, use_case, "", "", "",
                                       latency, accuracy, 0.0);
   }
