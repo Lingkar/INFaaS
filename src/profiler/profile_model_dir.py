@@ -19,19 +19,19 @@ def get_args():
     return ap.parse_args()
 
 
-def find_path_file(path, file_name) -> list[str]:
+def find_path_file(path, file_name):
     if not path[-1] == '/':  # Make sure the path ends with a slash
         path = path + '/'
 
     if not os.path.isfile(os.path.join(path, file_name)):
-        raise Exception(f"File not found! {path}{file_name}")
+        raise Exception("File not found! " + path + file_name)
     file_path = path + file_name
     return file_path
 
 
-def find_model_files(path) -> list[str]:
+def find_model_files(path):
     if not os.path.exists(path):
-        raise Exception(f"Directory {path} not found!")
+        raise Exception("Directory " + path + " not found!")
     if not path[-1] == '/':  # Make sure the path ends with a slash
         path = path + '/'
 
@@ -42,7 +42,7 @@ def find_model_files(path) -> list[str]:
 def get_accuracy(file_name: str):
     parts = file_name.split('_acc')
     if not len(parts) == 2 or not parts[1].endswith('.pt'):
-        raise f"File name {file_name} incorrectly formatted"
+        raise "File name " + file_name + " incorrectly formatted"
     accuracy = parts[1].strip('.pt').strip('acc')
     return accuracy
 
@@ -57,11 +57,16 @@ def main(args):
 
     model_files = find_model_files(path)
     for file_name in model_files:
-        print(f"Running bash process for {file_name}")
+        print("Running bash process for " + file_name)
+        print("CHECKKKK:")
+        checker = ['./profile_model_torch.sh', find_path_file(path, file_name), get_accuracy(file_name), args.data_set,
+                   args.task, args.num_cpus, get_par_model(file_name), path, args.im_dim]
+        print(checker)
+        print(len(checker))
+        print('----------------')
         subprocess.call(
-            ['./profile_model_torch.sh', find_path_file(path, file_name), get_accuracy(file_name), args.data_set,
-             args.task, args.num_cpus, get_par_model(file_name), path, args.im_dim])
-        print(f"Done for file {file_name}")
+            checker)
+        print("Done for file " + file_name)
         time.sleep(4)
 
 

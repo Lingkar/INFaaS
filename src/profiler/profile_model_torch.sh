@@ -922,7 +922,8 @@ elif [[ $framework == "tensorrt" ]] || [[ $framework == "tensorflow-gpu" ]] || \
 fi
 
 mkdir -p "profiled_configs"
-model_config_name="profiled_configs/"${model_config_name}".config"
+mkdir -p "profiled_configs/"${DATASET}
+model_config_name="profiled_configs/"${DATASET}"/"${model_config_name}".config"
 
 cp ${TEMPLATE_FILE} ${model_config_name}
 
